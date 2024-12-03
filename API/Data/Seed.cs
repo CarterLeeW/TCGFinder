@@ -39,6 +39,7 @@ public class Seed
         foreach (AppUser user in users)
         {
             user.Email = user.Email!.ToLower();
+            user.UserName = user.Email; // identity requires this UserName field to be populated, or it will not create the user in the database
             // also saves to the database
             await userManager.CreateAsync(user, "Pa$$w0rd");
             await userManager.AddToRoleAsync(user, "Member");
@@ -46,8 +47,8 @@ public class Seed
 
         var admin = new AppUser
         {
-            UserName = "admin",
-
+            Email = "admin@admin.com",
+            UserName = "admin@admin.com"
         };
         await userManager.CreateAsync(admin, "Pa$$w0rd");
         await userManager.AddToRolesAsync(admin, ["Admin", "Moderator"]);
