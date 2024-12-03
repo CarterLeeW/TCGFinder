@@ -17,7 +17,7 @@ public class WeatherForecastController : BaseApiController
         _logger = logger;
     }
 
-    [Authorize]
+    [Authorize(Policy ="RequireAdminRole")]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
