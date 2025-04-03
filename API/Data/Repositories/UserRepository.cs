@@ -1,14 +1,17 @@
 using System;
 using API.DTOs;
 using API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(ApplicationDbContext context, IMapper mapper) : IUserRepository
 {
-    public Task<MemberDto?> GetMemberAsync(string handle)
+    public async Task<MemberDto?> GetMemberAsync(string handle)
     {
-        throw new NotImplementedException();
+        return await context.Users
+            .Where(x => x.Handle == handle)
+            .SingleOrDefaultAsync();
     }
 
     public Task<AppUser?> GetUserByIdAsync(int id)
