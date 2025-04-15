@@ -1,22 +1,19 @@
-using System;
 using API.Data.Repositories;
 using API.DTOs;
-using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
-
-[Authorize]
-public class UserController(
-    IUserRepository userRepository
-) : BaseApiController
+namespace API.Controllers
 {
-    [HttpGet("{handle}")]
-    public async Task<ActionResult<MemberDto>> GetUser(string handle)
+    public class UserController(IUnitOfWork unitOfWork) : BaseApiController
     {
-        var user = await userRepository.GetMemberAsync(handle);
+        [HttpGet("{handle}")] // /api/users/{username}
+        public async Task<ActionResult<MemberDto>> GetUserByHandle(string handle)
+        {
+            var user = await unitOfWork.UserRepository.GetMemberAsync(handle);
 
-        if (user == null) return NotFound();
-        return user;
+            return Ok(user);
+        }
     }
 }

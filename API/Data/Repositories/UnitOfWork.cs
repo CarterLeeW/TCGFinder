@@ -2,17 +2,17 @@ using System;
 
 namespace API.Data.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(ApplicationDbContext context, IUserRepository userRepository) : IUnitOfWork
 {
-    public IUserRepository UserRepository => throw new NotImplementedException();
+    public IUserRepository UserRepository => userRepository;
 
-    public Task<bool> Complete()
+    public async Task<bool> Complete()
     {
-        throw new NotImplementedException();
+        return await context.SaveChangesAsync() > 0;
     }
 
     public bool HasChanges()
     {
-        throw new NotImplementedException();
+        return context.ChangeTracker.HasChanges();
     }
 }
