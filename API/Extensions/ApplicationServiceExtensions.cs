@@ -1,6 +1,7 @@
 using System;
 using API.Data;
 using API.Data.Repositories;
+using API.Mapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions;
@@ -17,6 +18,7 @@ public static class ApplicationServiceExtensions
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ITCGMapper, TCGMapper>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddSwaggerGen();
